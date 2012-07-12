@@ -11,9 +11,9 @@
 	<key>EnableViewportScale</key>
 	<false/>
 	<key>AutoHideSplashScreen</key>
-	<true/>
+	<false/>
 	<key>ShowSplashScreenSpinner</key>
-	<true/>
+	<false/>
 	<key>MediaPlaybackRequiresUserAction</key>
 	<false/>
 	<key>AllowInlineMediaPlayback</key>
@@ -24,6 +24,8 @@
 	<array/>
 	<key>Plugins</key>
 	<dict>
+		<key>Canvas2ImagePlugin</key>
+		<string>Canvas2ImagePlugin</string>
 		<key>Compass</key>
 		<string>CDVLocation</string>
 		<key>Accelerometer</key>
