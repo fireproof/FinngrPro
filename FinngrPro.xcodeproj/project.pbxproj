@@ -38,6 +38,11 @@
 		344EA1B4159EB6B400BCF40A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 344EA1B3159EB6B400BCF40A /* MainViewController.m */; };
 		344EA1B6159EB6B400BCF40A /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 344EA1B5159EB6B400BCF40A /* MainViewController.xib */; };
 		344EA1BA159EB6B400BCF40A /* verify.sh in Resources */ = {isa = PBXBuildFile; fileRef = 344EA1B9159EB6B400BCF40A /* verify.sh */; };
+		344EA1C6159EB7A400BCF40A /* www in Resources */ = {isa = PBXBuildFile; fileRef = 344EA1C5159EB7A400BCF40A /* www */; };
+		344EA1CB159EB81900BCF40A /* Canvas2ImagePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 344EA1C8159EB81900BCF40A /* Canvas2ImagePlugin.m */; };
+		344EA1CC159EB81900BCF40A /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 344EA1CA159EB81900BCF40A /* NSData+Base64.m */; };
+		3487180315AD4C8000594730 /* Finngr_Pro_icon72.png in Resources */ = {isa = PBXBuildFile; fileRef = 3487180215AD4C8000594730 /* Finngr_Pro_icon72.png */; };
+		3487180615AD4C8300594730 /* Finngr_Pro_icon144.png in Resources */ = {isa = PBXBuildFile; fileRef = 3487180515AD4C8300594730 /* Finngr_Pro_icon144.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,10 +60,10 @@
 		344EA17C159EB6B300BCF40A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		344EA17E159EB6B300BCF40A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		344EA180159EB6B300BCF40A /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		344EA184159EB6B300BCF40A /* FinngrPro-Info.plist */ = {isa = PBXFileReference; path = "FinngrPro-Info.plist"; sourceTree = "<group>"; };
+		344EA184159EB6B300BCF40A /* FinngrPro-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FinngrPro-Info.plist"; sourceTree = "<group>"; };
 		344EA186159EB6B300BCF40A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		344EA188159EB6B300BCF40A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		344EA18A159EB6B300BCF40A /* FinngrPro-Prefix.pch */ = {isa = PBXFileReference; path = "FinngrPro-Prefix.pch"; sourceTree = "<group>"; };
+		344EA18A159EB6B300BCF40A /* FinngrPro-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FinngrPro-Prefix.pch"; sourceTree = "<group>"; };
 		344EA18B159EB6B300BCF40A /* Cordova.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cordova.framework; path = /Users/Shared/Cordova/Frameworks/Cordova.framework; sourceTree = "<absolute>"; };
 		344EA190159EB6B300BCF40A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		344EA194159EB6B300BCF40A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Resources/es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -71,13 +76,20 @@
 		344EA1A8159EB6B300BCF40A /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/splash/Default@2x.png"; sourceTree = "<group>"; };
 		344EA1AA159EB6B300BCF40A /* Capture.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Capture.bundle; path = Resources/Capture.bundle; sourceTree = "<group>"; };
 		344EA1AC159EB6B300BCF40A /* Cordova.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Cordova.plist; sourceTree = "<group>"; };
-		344EA1AF159EB6B400BCF40A /* AppDelegate.h */ = {isa = PBXFileReference; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
+		344EA1AF159EB6B400BCF40A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		344EA1B0159EB6B400BCF40A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
-		344EA1B2159EB6B400BCF40A /* MainViewController.h */ = {isa = PBXFileReference; name = MainViewController.h; path = Classes/MainViewController.h; sourceTree = "<group>"; };
+		344EA1B2159EB6B400BCF40A /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = Classes/MainViewController.h; sourceTree = "<group>"; };
 		344EA1B3159EB6B400BCF40A /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = Classes/MainViewController.m; sourceTree = "<group>"; };
 		344EA1B5159EB6B400BCF40A /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainViewController.xib; path = Classes/MainViewController.xib; sourceTree = "<group>"; };
-		344EA1B8159EB6B400BCF40A /* README */ = {isa = PBXFileReference; name = README; path = Plugins/README; sourceTree = "<group>"; };
+		344EA1B8159EB6B400BCF40A /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		344EA1B9159EB6B400BCF40A /* verify.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = verify.sh; sourceTree = "<group>"; };
+		344EA1C5159EB7A400BCF40A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		344EA1C7159EB81900BCF40A /* Canvas2ImagePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Canvas2ImagePlugin.h; sourceTree = "<group>"; };
+		344EA1C8159EB81900BCF40A /* Canvas2ImagePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Canvas2ImagePlugin.m; sourceTree = "<group>"; };
+		344EA1C9159EB81900BCF40A /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		344EA1CA159EB81900BCF40A /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		3487180215AD4C8000594730 /* Finngr_Pro_icon72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Finngr_Pro_icon72.png; sourceTree = "<group>"; };
+		3487180515AD4C8300594730 /* Finngr_Pro_icon144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Finngr_Pro_icon144.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,9 +127,12 @@
 		344EA156159EB6B100BCF40A = {
 			isa = PBXGroup;
 			children = (
+				3487180515AD4C8300594730 /* Finngr_Pro_icon144.png */,
+				3487180215AD4C8000594730 /* Finngr_Pro_icon72.png */,
 				344EA182159EB6B300BCF40A /* FinngrPro */,
 				344EA167159EB6B200BCF40A /* Frameworks */,
 				344EA165159EB6B200BCF40A /* Products */,
+				344EA1C5159EB7A400BCF40A /* www */,
 			);
 			sourceTree = "<group>";
 		};
@@ -255,6 +270,10 @@
 			isa = PBXGroup;
 			children = (
 				344EA1B8159EB6B400BCF40A /* README */,
+				344EA1C7159EB81900BCF40A /* Canvas2ImagePlugin.h */,
+				344EA1C8159EB81900BCF40A /* Canvas2ImagePlugin.m */,
+				344EA1C9159EB81900BCF40A /* NSData+Base64.h */,
+				344EA1CA159EB81900BCF40A /* NSData+Base64.m */,
 			);
 			name = Plugins;
 			sourceTree = "<group>";
@@ -329,6 +348,9 @@
 				344EA1AD159EB6B300BCF40A /* Cordova.plist in Resources */,
 				344EA1B6159EB6B400BCF40A /* MainViewController.xib in Resources */,
 				344EA1BA159EB6B400BCF40A /* verify.sh in Resources */,
+				344EA1C6159EB7A400BCF40A /* www in Resources */,
+				3487180315AD4C8000594730 /* Finngr_Pro_icon72.png in Resources */,
+				3487180615AD4C8300594730 /* Finngr_Pro_icon144.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,6 +380,8 @@
 				344EA189159EB6B300BCF40A /* main.m in Sources */,
 				344EA1B1159EB6B400BCF40A /* AppDelegate.m in Sources */,
 				344EA1B4159EB6B400BCF40A /* MainViewController.m in Sources */,
+				344EA1CB159EB81900BCF40A /* Canvas2ImagePlugin.m in Sources */,
+				344EA1CC159EB81900BCF40A /* NSData+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,11 +456,12 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -452,11 +477,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -475,7 +501,9 @@
 					"DEBUG=1,",
 					"CORDOVA_FRAMEWORK=1",
 				);
+				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "FinngrPro/FinngrPro-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					UIKit,
@@ -505,7 +533,9 @@
 					"NDEBUG=1,",
 					"CORDOVA_FRAMEWORK=1",
 				);
+				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "FinngrPro/FinngrPro-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					UIKit,
@@ -542,6 +572,7 @@
 				344EA1BF159EB6B400BCF40A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

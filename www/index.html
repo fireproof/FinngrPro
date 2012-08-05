@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Finngr Pro</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+        <meta charset="utf-8">
+            <link rel="stylesheet" media="all" href="style.css" type="text/css" />
+            <!-- iPad/iPhone specific css below, add after your main css >
+             <link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
+             <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
+             -->
+            <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
+            <script type="text/javascript" charset="utf-8" src="cordova-1.6.1.js"></script>
+            <script type="text/javascript" charset="utf-8" src="Canvas2ImagePlugin.js"></script>
+            <script type="text/javascript" charset="utf-8" src="colouring.js"></script>
+            <script type="text/javascript" charset="utf-8" src="jquery-1.7.2.min.js"></script>
+            
+            <script type="text/javascript">
+                var widthMinusBar;
+                var toolBarWidth;
+                // prevent window bounce
+                function preventBehavior(e) { 
+                    e.preventDefault(); 
+                };
+                document.addEventListener("touchmove", preventBehavior, false);
+                
+                function onBodyLoad() {		
+                    document.addEventListener("deviceready", onDeviceReady, false);
+                }
+                
+                function onDeviceReady() {
+                    toolBarWidth = $("#toolBar").width();
+                    console.log(toolBarWidth);
+                    widthMinusBar = window.innerWidth - toolBarWidth; // take 75px away to compensate for toolbar. 
+                    
+                    var c = document.getElementById('cbook');
+                    c.width = widthMinusBar; 
+                    c.height = window.innerHeight;
+                    
+                    var exportwin = document.getElementById('export');
+                    exportwin.width = widthMinusBar; 
+                    exportwin.height = window.innerHeight;
+                    
+                    var compositingtwin = document.getElementById('compositing');
+                    compositingtwin.width = widthMinusBar; 
+                    compositingtwin.height = window.innerHeight;
+                    
+                    init();
+                    
+                    // to eliminate white flash at load, change
+                    // Cordova.plist AutoHideSplascreen to NO, along with this:
+                    setTimeout(function() {
+                               cordova.exec(null, null, "SplashScreen", "hide", []);
+                               }, 1000);
+                }
+                
+                </script>
+            </head>
+    <body onload="onBodyLoad()">
+        <div id="savedMessage"><span>Saved</span><br />to Photo Library</div>
+        <div id="clearMessage">
+            <div id="clearPopup"><span id="clearHeader">Clear Screen?</span>
+                <span id="clearNoButton" ontouchstart="closeClearMessage();">No</span>
+                <span id="clearYesButton" ontouchstart="clearCanvas();">Yes</span>
+            </div>
+        </div>
+        <div id="brushSelect"><span id="brush" class="selectedTool" ontouchstart="selectBrush('brush');"> </span><span id="pen" ontouchstart="selectBrush('pen');"> </span>
+         </div>
+        <div id="sizeSelect">
+            <span id="sizeMinus" ontouchstart="sizeChange('minus');">-</span>
+            <span id="sizePlus" ontouchstart="sizeChange('plus');">+</span>
+        </div>
+        <div id="toolBar">
+            <ul id="toolBarList">
+                <li id="clearButton" ontouchstart="checkClearCanvas();"> </li>
+                <li id="saveButton" ontouchstart="saveCanvas();"> </li>
+                <li id="brushButton" ontouchstart="brushPopup();"> </li>
+                <li id="sizeButton" ontouchstart="sizePopup();"> </li>
+                <li id="prefsButton" ontouchstart="setPreferences();"> </li>
+                <!-- list items are added at init() using an array -->
+            </ul>
+        </div>
+        <canvas id="cbook" width="800" height="1200"></canvas>
+        <canvas id="compositing" width="800" height="1200"></canvas>
+        <canvas id="export" width="800" height="1200"></canvas>
+    </body>
+</html>
