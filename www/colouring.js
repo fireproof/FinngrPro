@@ -6,8 +6,10 @@ var comp_ctx = null;
 var ex_canvas = null;
 var ex_ctx = null;
 var cb_lastPoints = null;
-var thickness = 4;
-var size = 3; // thickness multiplier 
+var thickness = 1.2;
+var size = 3; // thickness multiplier
+var brushSize = 3;
+var penSize = 3;
 //console.log('start size: '+size);
 var brush = "brush";
 var compGlobalAlpha = 0.99; // initial compositing transparency
@@ -42,7 +44,7 @@ function init() {
 		cb_ctx = cb_canvas.getContext('2d');
 		cb_ctx.lineWidth = thickness;
         cb_ctx.lineCap = 'round';
-        cb_ctx.globalCompositeOperation = "copy"; // turns strokes opaque; comment out to see dotty/better strokes. individual colors need lower alpha 
+//        cb_ctx.globalCompositeOperation = "copy"; // turns strokes opaque; comment out to see dotty/better strokes. individual colors need lower alpha 
 		cb_ctx.strokeStyle = "rgba(0, 0, 0, 0.95)";
 		cb_ctx.beginPath();
 
@@ -79,6 +81,7 @@ function init() {
 }
 
 function startDraw(e) {
+    // close the brush size selection menu if it is open
     if($("#sizeSelect").hasClass('sizeOpen')) {
         sizePopup();
     }
@@ -115,10 +118,10 @@ function drawLine(sX, sY, eX, eY) {
 
     if (brush == "pen") {
         // starts thick, gets thinner with speed. thickness 20
-        if (cb_ctx.lineWidth <= (thickness * size) -1) { prevWidth = cb_ctx.lineWidth; }
-        cb_ctx.lineWidth = (thickness * size) - (curLength * ((thickness * size)/20));
-        if (cb_ctx.lineWidth <  prevWidth - ((thickness * size)/20) ) { cb_ctx.lineWidth = prevWidth - ((thickness * size)/20 +1); }
-        if (cb_ctx.lineWidth > prevWidth + ((thickness * size)/20)) { cb_ctx.lineWidth = prevWidth + 1; }
+        if (cb_ctx.lineWidth <= (thickness * (penSize/2)) -1) { prevWidth = cb_ctx.lineWidth; }
+        cb_ctx.lineWidth = (thickness * (penSize/2)) - (curLength * ((thickness * (penSize/2))/30));
+        if (cb_ctx.lineWidth <  prevWidth - ((thickness * (penSize/2))/30) ) { cb_ctx.lineWidth = prevWidth - ((thickness * (penSize/2))/30 +1); }
+        if (cb_ctx.lineWidth > prevWidth + ((thickness * (penSize/2))/30)) { cb_ctx.lineWidth = prevWidth + 1; }
         if (curLength == 1) { cb_ctx.lineWidth = cb_ctx.lineWidth + 2 ;}
         if (cb_ctx.lineWidth < 1){ cb_ctx.lineWidth = 1; } // limit stroke min
     }
@@ -127,11 +130,11 @@ function drawLine(sX, sY, eX, eY) {
 //        console.log('linewidth: '+cb_ctx.lineWidth);
 //        console.log('thickness*size: '+thickness * size);
         // standard, with thickness 4
-        if (cb_ctx.lineWidth > (thickness * size) /2) { prevWidth = cb_ctx.lineWidth; }
-        else { prevWidth = (thickness * size) /2; }
+        if (cb_ctx.lineWidth > (thickness * brushSize) /2) { prevWidth = cb_ctx.lineWidth; }
+        else { prevWidth = (thickness * brushSize) /2; }
         cb_ctx.lineWidth = lineLength(sX, sY, eX, eY) + (prevWidth * 0.3); 
         if (cb_ctx.lineWidth >  prevWidth * 2 ) { cb_ctx.lineWidth = prevWidth * 2; }
-        if (cb_ctx.lineWidth > size * 20){ cb_ctx.lineWidth = size * 20; } // limit stroke max
+        if (cb_ctx.lineWidth > brushSize * 20){ cb_ctx.lineWidth = brushSize * 20; } // limit stroke max
     }
 
     prevWidth = 0;
@@ -178,37 +181,61 @@ function clearCanvas() {
     closeClearMessage();
 }
 
-function brushPopup() {
-    $("#brushSelect").css({'opacity':'1', 'width':'0px', 'left': toolBarWidth+8 }).animate({
-                                                                                           width: '100px'
-                                                                                           }, 200, function() {
-                                                                                           console.log('brushPopup');
-                                                                                           });
-}
+//function brushPopup() {
+//    $("#brushSelect").css({'opacity':'1', 'width':'0px', 'left': toolBarWidth+8 }).animate({
+//                                                                                           width: '100px'
+//                                                                                           }, 200, function() {
+//                                                                                           console.log('brushPopup');
+//                                                                                           });
+//}
+//
+//function selectBrush(kind){
+//    brush = kind; // set current tool
+//    if (kind == 'brush'){
+//        thickness = '0.125'; 
+//        var bg = 'url(icons/brush_64.png) no-repeat 5px'; 
+//        $("#brushButton").css({'background': bg}); 
+//        $("span#brush").addClass('selectedTool'); 
+//        $("span#pen").removeClass('selectedTool');}
+//    
+//    if (kind == 'pen'){
+//        thickness = '11'; 
+//        var bg = 'url(icons/pencil_64.png) no-repeat 5px'; 
+//        $("#brushButton").css({'background': bg}); 
+//        $("span#pen").addClass('selectedTool'); 
+//        $("span#brush").removeClass('selectedTool');}
+//    
+//    $("#brushSelect").animate({
+//                              opacity: 0,
+//                              width: '0px'
+//                              }, 500, function() {
+//                              // Animation complete.
+//                              console.log('brush popup closed');
+//                              });
+//}
 
-function selectBrush(kind){
-    brush = kind;
-    if (kind == 'brush'){
-        thickness = '0.125'; 
-        var bg = 'url(icons/brush_64.png) no-repeat 5px'; 
-        $("#brushButton").css({'background': bg}); 
-        $("span#brush").addClass('selectedTool'); 
-        $("span#pen").removeClass('selectedTool');}
-    
-    if (kind == 'pen'){
-        thickness = '11'; 
-        var bg = 'url(icons/pencil_64.png) no-repeat 5px'; 
-        $("#brushButton").css({'background': bg}); 
-        $("span#pen").addClass('selectedTool'); 
-        $("span#brush").removeClass('selectedTool');}
-    
-    $("#brushSelect").animate({
-                              opacity: 0,
-                              width: '0px'
-                              }, 500, function() {
-                              // Animation complete.
-                              console.log('brush popup closed');
-                              });
+function brushPopup() {
+    // if current tool is pen, switch to brush and vice versa
+    if (brush == 'pen'){
+        brush = 'brush';
+        thickness = '0.125';
+        var bg = 'url(icons/brush_64.png) no-repeat 5px';
+        $("#brushButton").css({'background': bg});
+        var bg = 'url(icons/brush_size'+brushSize+'.png) no-repeat 5px';
+        $("#sizeButton").css({'background': bg});
+        if (brushSize == 5) { $("#sizePlus").addClass('sizeDisabled'); } else { $("#sizePlus").removeClass('sizeDisabled'); }
+        if (brushSize == 1) { $("#sizeMinus").addClass('sizeDisabled'); } else { $("#sizeMinus").removeClass('sizeDisabled'); }
+    }
+    else if (brush == 'brush'){
+        brush = 'pen';
+        thickness = '11';
+        var bg = 'url(icons/pencil_64.png) no-repeat 5px';
+        $("#brushButton").css({'background': bg});
+        var bg = 'url(icons/brush_size'+penSize+'.png) no-repeat 5px';
+        $("#sizeButton").css({'background': bg});
+        if (penSize == 5) { $("#sizePlus").addClass('sizeDisabled'); } else { $("#sizePlus").removeClass('sizeDisabled'); }
+        if (penSize == 1) { $("#sizeMinus").addClass('sizeDisabled'); } else { $("#sizeMinus").removeClass('sizeDisabled'); }
+    }
 }
 
 function sizePopup() {
@@ -236,9 +263,12 @@ function sizePopup() {
 }
 
 function sizeChange(change) {
+    if (brush == 'brush') { size = brushSize; }
+    if (brush == 'pen') { size = penSize; }
     if ((change == 'plus') && (size < 5)){ size = size + 1;}
     if ((change == 'minus') && (size >= 2)){ size = size - 1; }
-    
+    if (brush == 'brush') { brushSize = size; }
+    if (brush == 'pen') { penSize = size; }
     if (size == 5) { $("#sizePlus").addClass('sizeDisabled'); } else { $("#sizePlus").removeClass('sizeDisabled'); }
     if (size == 1) { $("#sizeMinus").addClass('sizeDisabled'); } else { $("#sizeMinus").removeClass('sizeDisabled'); }
     var bg = 'url(icons/brush_size'+size+'.png) no-repeat 5px';

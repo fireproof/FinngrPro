@@ -16,6 +16,8 @@
 		<string>icon@2x.png</string>
 		<string>Finngr_Pro_icon72.png</string>
 		<string>Finngr_Pro_icon144.png</string>
+		<string>Default-Landscape@2x~ipad.png</string>
+		<string>Default-Landscape~ipad.png</string>
 	</array>
 	<key>CFBundleIcons</key>
 	<dict>
@@ -27,6 +29,8 @@
 				<string>icon@2x.png</string>
 				<string>Finngr_Pro_icon72.png</string>
 				<string>Finngr_Pro_icon144.png</string>
+				<string>Default-Landscape@2x~ipad.png</string>
+				<string>Default-Landscape~ipad.png</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
 			<true/>
