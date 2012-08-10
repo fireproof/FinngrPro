@@ -129,7 +129,7 @@ function drawMouse(e) {
 function drawLine(sX, sY, eX, eY) {
     // Set width of stroke 
     var prevWidth;
-    var curLength = lineLength(sX, sY, eX, eY);
+    var curLength = parseInt(lineLength(sX, sY, eX, eY));
 
     if (brush == "pen") {
         // starts thick, gets thinner with speed. thickness 20
@@ -145,9 +145,9 @@ function drawLine(sX, sY, eX, eY) {
         var brushthickness = brushSize/3;
         if (cb_ctx.lineWidth > (brushthickness * brushSize) /2) { prevWidth = cb_ctx.lineWidth; }
         else { prevWidth = (brushthickness * brushSize) /2; }
-        cb_ctx.lineWidth = lineLength(sX, sY, eX, eY) + (prevWidth * 0.3); 
+        cb_ctx.lineWidth = parseInt( lineLength(sX, sY, eX, eY) + (prevWidth * 0.3) );
         if (cb_ctx.lineWidth >  prevWidth * 2 ) { cb_ctx.lineWidth = prevWidth * 2; }
-        if (cb_ctx.lineWidth > brushSize * 20){ cb_ctx.lineWidth = brushSize * 20; } // limit stroke max
+        if (cb_ctx.lineWidth > brushSize * 20){ cb_ctx.lineWidth = parseInt(brushSize * 20); } // limit stroke max
     }
 
     prevWidth = 0;
@@ -199,9 +199,9 @@ function brushPopup() {
     if (brush == 'pen'){
         brush = 'brush';
         thickness = '0.125';
-        var bg = 'url(icons/brush_64.png) no-repeat 5px';
+        var bg = 'url(icons/2/toolbar_brush.png) no-repeat 5px';
         $("#brushButton").css({'background': bg});
-        var bg = 'url(icons/brush_size'+brushSize+'.png) no-repeat 5px';
+        var bg = 'url(icons/2/toolbar_brush_size'+brushSize+'.png) no-repeat 5px';
         $("#sizeButton").css({'background': bg});
         if (brushSize == 5) { $("#sizePlus").addClass('sizeDisabled'); } else { $("#sizePlus").removeClass('sizeDisabled'); }
         if (brushSize == 1) { $("#sizeMinus").addClass('sizeDisabled'); } else { $("#sizeMinus").removeClass('sizeDisabled'); }
@@ -209,9 +209,9 @@ function brushPopup() {
     else if (brush == 'brush'){
         brush = 'pen';
         thickness = '11';
-        var bg = 'url(icons/pencil_64.png) no-repeat 5px';
+        var bg = 'url(icons/2/toolbar_pen.png) no-repeat 5px';
         $("#brushButton").css({'background': bg});
-        var bg = 'url(icons/brush_size'+penSize+'.png) no-repeat 5px';
+        var bg = 'url(icons/2/toolbar_brush_size'+penSize+'.png) no-repeat 5px';
         $("#sizeButton").css({'background': bg});
         if (penSize == 5) { $("#sizePlus").addClass('sizeDisabled'); } else { $("#sizePlus").removeClass('sizeDisabled'); }
         if (penSize == 1) { $("#sizeMinus").addClass('sizeDisabled'); } else { $("#sizeMinus").removeClass('sizeDisabled'); }
@@ -228,7 +228,7 @@ function sizePopup() {
                                 // Animation complete.
                                 $("#sizeSelect").removeClass('sizeOpen');
                                 $("#sizeSelect").css({'visibility':'hidden'});
-                                console.log('size popup closed');
+                                console.log('Size popup closed');
                                 });
        }
     else {
@@ -252,7 +252,7 @@ function sizeChange(change) {
     if (brush == 'pen') { penSize = size; }
     if (size == 5) { $("#sizePlus").addClass('sizeDisabled'); } else { $("#sizePlus").removeClass('sizeDisabled'); }
     if (size == 1) { $("#sizeMinus").addClass('sizeDisabled'); } else { $("#sizeMinus").removeClass('sizeDisabled'); }
-    var bg = 'url(icons/brush_size'+size+'.png) no-repeat 5px';
+    var bg = 'url(icons/2/toolbar_brush_size'+size+'.png) no-repeat 5px';
     $("#sizeButton").css({'background': bg}); 
 }
 
@@ -291,7 +291,7 @@ function setColor(color) {
 }
 
 function rgbMidpoint(first,second) {
-    console.log(first+ " "+second);
+    // create a string 'rgba' that is average of two rgba values
     var firstRGBarr = first.split(',');
     var secondRGBarr = second.split(',');
     var midpointRGBa = parseInt( (parseFloat(firstRGBarr[0]) + parseFloat(secondRGBarr[0]))/2 ).toString() + ','

@@ -4,16 +4,6 @@ body {
 	padding-top: 10px;
 }
 
-#tracingImage {
-/*	background: url(pages/Zaner01.gif) repeat-y fixed; 
-    background: url(pages/Zaner01B.png) repeat-y fixed; */
-    /*background-size: 100%; */
-    opacity: 0.4;
-	top: 0;
-	left: 50px;
-	position: absolute;
-}
-
 #compositing {
 	opacity: 1;
     position: absolute;
@@ -155,7 +145,7 @@ a {
 }
 
 #saveButton{
-	background: url(icons/save_64.png) no-repeat 5px;
+	background: url(icons/2/toolbar_save.png) no-repeat 5px; /* icons/save_64.png */
 	background-size: 80% 80%;
 }
 
@@ -180,7 +170,7 @@ a {
 }
 
 #brushButton {
-	background: url(icons/brush_64.png) no-repeat 5px;
+	background: url(icons/2/toolbar_brush.png) no-repeat 5px;
 	background-size: 80% 80%;
 }
 
@@ -209,13 +199,13 @@ a {
 
 span#brush {
 	background-color: green;
-	background: url(icons/brush_64.png) no-repeat 5px;
+	background: url(icons/2/toolbar_brush.png) no-repeat 5px;
 	background-size: 80% 80%;
 }
 
 span#pen {
 	background-color: blue;
-	background: url(icons/pencil_64.png) no-repeat 5px;
+	background: url(icons/2/toolbar_pen.png) no-repeat 5px;
 	background-size: 80% 80%;
 }
 
@@ -224,7 +214,7 @@ span#pen {
 }
 
 #sizeButton {
-	background: url(icons/brush_size3.png) no-repeat 5px;
+	background: url(icons/2/toolbar_brush_size3.png) no-repeat 5px;
 	background-size: 80% 80%;
 }
 #sizeOpen {
@@ -261,7 +251,7 @@ span.sizeDisabled {
 }
 
 #red {
-    background: -webkit-linear-gradient(left,rgba(212,69,3,0.9) 0%, rgba(212,69,3,0.9) 100%);
+    background-color: rgba(212,69,3,0.9);
 }
 #green {
 	background-color: rgba(141,172,94,0.9);
