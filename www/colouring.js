@@ -9,9 +9,10 @@ var cb_lastPoints = null;
 var thickness = 1.2;
 var size = 3; // thickness multiplier
 var brushSize = 3;
-var penSize = 3;
+var penSize = 1;
 //console.log('start size: '+size);
 var brush = "brush";
+var previousColor = "black";
 var compGlobalAlpha = 0.99; // initial compositing transparency
 
 var bgImageArr = ["pages/Old_Grunger_Paper_Texture_09_by_fudgegraphics.jpg",
@@ -35,6 +36,20 @@ var initColorsArr = {"red": "212,69,3,0.95",
                      "white": "255,255,255,0.95",
                      "brown": "161,105,82,0.95"
                      };
+// initial colors for the right side of a gradient
+var modifiedColorsArr = {"red": "212,69,3,0.95",
+                         "green": "141,172,94,0.95",
+                         "yellow": "235,200,36,0.95",
+                         "blue": "85,129,151,0.95",
+                         "purple": "182,135,193,0.95",
+                         "pink": "237,185,217,0.95",
+                         "black": "0,0,0,0.95",
+                         "gray": "181,192,192,0.98",
+                         "white": "255,255,255,0.95",
+                         "brown": "161,105,82,0.95"
+};
+
+var rgbValue = "0,0,0,0.95";
 
 function init() {
 	cb_canvas = document.getElementById('cbook');
@@ -45,7 +60,7 @@ function init() {
 		cb_ctx.lineWidth = thickness;
         cb_ctx.lineCap = 'round';
 //        cb_ctx.globalCompositeOperation = "copy"; // turns strokes opaque; comment out to see dotty/better strokes. individual colors need lower alpha 
-		cb_ctx.strokeStyle = "rgba(0, 0, 0, 0.95)";
+		cb_ctx.strokeStyle = 'rgba('+rgbValue+')';
 		cb_ctx.beginPath();
 
 		cb_canvas.ontouchstart = startDraw;
@@ -75,7 +90,7 @@ function init() {
     $('.color').bind('touchstart', function() {
                           setColor($(this).data('lstColor'));
                           });
-    
+    setColor("black");
     
     delete init;
 }
@@ -127,11 +142,9 @@ function drawLine(sX, sY, eX, eY) {
     }
     
     if (brush == "brush") {
-//        console.log('linewidth: '+cb_ctx.lineWidth);
-//        console.log('thickness*size: '+thickness * size);
-        // standard, with thickness 4
-        if (cb_ctx.lineWidth > (thickness * brushSize) /2) { prevWidth = cb_ctx.lineWidth; }
-        else { prevWidth = (thickness * brushSize) /2; }
+        var brushthickness = brushSize/3;
+        if (cb_ctx.lineWidth > (brushthickness * brushSize) /2) { prevWidth = cb_ctx.lineWidth; }
+        else { prevWidth = (brushthickness * brushSize) /2; }
         cb_ctx.lineWidth = lineLength(sX, sY, eX, eY) + (prevWidth * 0.3); 
         if (cb_ctx.lineWidth >  prevWidth * 2 ) { cb_ctx.lineWidth = prevWidth * 2; }
         if (cb_ctx.lineWidth > brushSize * 20){ cb_ctx.lineWidth = brushSize * 20; } // limit stroke max
@@ -181,39 +194,6 @@ function clearCanvas() {
     closeClearMessage();
 }
 
-//function brushPopup() {
-//    $("#brushSelect").css({'opacity':'1', 'width':'0px', 'left': toolBarWidth+8 }).animate({
-//                                                                                           width: '100px'
-//                                                                                           }, 200, function() {
-//                                                                                           console.log('brushPopup');
-//                                                                                           });
-//}
-//
-//function selectBrush(kind){
-//    brush = kind; // set current tool
-//    if (kind == 'brush'){
-//        thickness = '0.125'; 
-//        var bg = 'url(icons/brush_64.png) no-repeat 5px'; 
-//        $("#brushButton").css({'background': bg}); 
-//        $("span#brush").addClass('selectedTool'); 
-//        $("span#pen").removeClass('selectedTool');}
-//    
-//    if (kind == 'pen'){
-//        thickness = '11'; 
-//        var bg = 'url(icons/pencil_64.png) no-repeat 5px'; 
-//        $("#brushButton").css({'background': bg}); 
-//        $("span#pen").addClass('selectedTool'); 
-//        $("span#brush").removeClass('selectedTool');}
-//    
-//    $("#brushSelect").animate({
-//                              opacity: 0,
-//                              width: '0px'
-//                              }, 500, function() {
-//                              // Animation complete.
-//                              console.log('brush popup closed');
-//                              });
-//}
-
 function brushPopup() {
     // if current tool is pen, switch to brush and vice versa
     if (brush == 'pen'){
@@ -247,13 +227,14 @@ function sizePopup() {
                                 }, 500, function() {
                                 // Animation complete.
                                 $("#sizeSelect").removeClass('sizeOpen');
+                                $("#sizeSelect").css({'visibility':'hidden'});
                                 console.log('size popup closed');
                                 });
-
        }
-       else {
+    else {
        // open the popup, add the sizeOpen class
-       $("#sizeSelect").css({'opacity':'1', 'width':'0px', 'left': toolBarWidth+8 }).animate({
+        $("#sizeSelect").css({'visibility':'visible'});
+        $("#sizeSelect").css({'opacity':'1', 'width':'0px', 'left': toolBarWidth+8 }).animate({
                                                                                            width: '95px'
                                                                                            }, 200, function() {
                                                                                              console.log('sizePopup');
@@ -276,13 +257,48 @@ function sizeChange(change) {
 }
 
 function setColor(color) {
-//    console.log('setColor clicked: '+color);
-    $('.color').removeClass('selectedColor');
+
+    // remove selectedColor from ALL color swatches
+    $('.color').removeClass('selectedColor'); 
+    // add selectedColor class to current color swatch
     var colorID = '#'+color;
     $(colorID).addClass('selectedColor');
-    rgbValue = 'rgba('+initColorsArr[color]+')';
-    // set context stroke style
-    cb_ctx.strokeStyle = rgbValue;
+    
+    if (previousColor === color) {
+        // CLEAN COLOR
+        // color swatch has been tapped twice in a row, so set color for painting using rgb value from intial array
+        var newGradient = '-webkit-radial-gradient(20% 50%, circle farthest-corner, rgba('+initColorsArr[color]+'), rgba('+initColorsArr[color]+') 90%)';
+        $(colorID).css({'background':newGradient});
+        cb_ctx.strokeStyle = 'rgba('+initColorsArr[color]+')';
+    }
+    else {
+        // MUDDY COLOR
+        // mix the modified color with the current brush color, then mix that result with the swatch color
+        var tempRGBa = rgbMidpoint(modifiedColorsArr[color], rgbValue);
+        var rightRGBa = rgbMidpoint(initColorsArr[color], tempRGBa);
+        
+        // update array with modified "right-side" rgba value for color swatch.
+        modifiedColorsArr[color] = rightRGBa;
+        
+        var newGradient = '-webkit-radial-gradient(20% 50%, circle farthest-corner, rgba('+initColorsArr[color]+'), rgba('+rightRGBa+') 90%)';
+        $(colorID).css({'background':newGradient});
+        
+        // rgbValue should actually be midway between the main color and the new rightRGBa.
+        rgbValue = rgbMidpoint(initColorsArr[color], rightRGBa);
+        cb_ctx.strokeStyle = 'rgba('+rgbValue+')';
+    }
+    previousColor = color;
+}
+
+function rgbMidpoint(first,second) {
+    console.log(first+ " "+second);
+    var firstRGBarr = first.split(',');
+    var secondRGBarr = second.split(',');
+    var midpointRGBa = parseInt( (parseFloat(firstRGBarr[0]) + parseFloat(secondRGBarr[0]))/2 ).toString() + ','
+                     + parseInt( (parseFloat(firstRGBarr[1]) + parseFloat(secondRGBarr[1]))/2 ).toString() + ','
+                     + parseInt( (parseFloat(firstRGBarr[2]) + parseFloat(secondRGBarr[2]))/2 ).toString() + ','
+                     + parseFloat( (parseFloat(firstRGBarr[3]) + parseFloat(secondRGBarr[3]))/2 ).toString();
+    return midpointRGBa;
 }
 
 //+ Jonas Raoni Soares Silva

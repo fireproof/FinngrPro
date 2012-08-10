@@ -101,9 +101,9 @@ a {
 	width: 102%;
 	height: 100%;
 	padding: 0;
-	background-color: rgba(0,0,0,0.3);
-	background: -webkit-radial-gradient(circle, rgba(200,200,200,0.3), rgba(0,0,0,0.6));
-display: none;
+	background-color: rgba(0,0,0,0.5);
+	background: -webkit-radial-gradient(circle, rgba(100,100,100,0.5), rgba(0,0,0,0.8));
+    display: none;
 	clear: both;
 	position: absolute;
 	left: -1%;
@@ -118,7 +118,7 @@ display: none;
 	margin-top: 25%;
 	display: block;
 	width: 300px;
-	background-color: rgba(0,0,0,0.74);
+	background-color: rgba(25,25,25,0.94);
 	-webkit-box-shadow: 2px 2px 10px rgba(50, 50, 50, 0.8);
 	-webkit-border-radius: 8px;
 	text-shadow: rgba(150,150,150,0.50) 0 1px 2px;
@@ -227,6 +227,9 @@ span#pen {
 	background: url(icons/brush_size3.png) no-repeat 5px;
 	background-size: 80% 80%;
 }
+#sizeOpen {
+	visibility: visible;
+}
 
 #sizeSelect {
 	width: 95px;
@@ -258,7 +261,7 @@ span.sizeDisabled {
 }
 
 #red {
-	background-color: rgba(212,69,3,0.9);
+    background: -webkit-linear-gradient(left,rgba(212,69,3,0.9) 0%, rgba(212,69,3,0.9) 100%);
 }
 #green {
 	background-color: rgba(141,172,94,0.9);
