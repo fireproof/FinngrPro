@@ -12,6 +12,7 @@
             <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
             <script type="text/javascript" charset="utf-8" src="cordova-1.6.1.js"></script>
             <script type="text/javascript" charset="utf-8" src="Canvas2ImagePlugin.js"></script>
+            <script type="text/javascript" charset="utf-8" src="ActionSheet.js"></script>
             <script type="text/javascript" charset="utf-8" src="colouring.js"></script>
             <script type="text/javascript" charset="utf-8" src="jquery-1.7.2.min.js"></script>
             
@@ -45,6 +46,11 @@
                     compositingtwin.width = widthMinusBar; 
                     compositingtwin.height = window.innerHeight;
                     
+                    var tracewin = document.getElementById('tracingImage');
+                    tracewin.width = widthMinusBar; console.log('Tracing Image width: '+tracewin.width);
+                    tracewin.height = window.innerHeight;
+
+                    
                     init();
                     
                     // to eliminate white flash at load, change
@@ -72,15 +78,17 @@
         </div>
         <div id="toolBar">
             <ul id="toolBarList">
-                <li id="clearButton" ontouchstart="checkClearCanvas();"> </li>
-                <li id="saveButton" ontouchstart="saveCanvas();"> </li>
+                <li id="clearButton" ontouchstart="showClearConfirm();"> </li>
+                <li id="saveButton" ontouchstart="saveCanvas('persist');"> </li>
                 <li id="brushButton" ontouchstart="brushPopup();"> </li>
                 <li id="sizeButton" ontouchstart="sizePopup();"> </li>
-                <li id="prefsButton" ontouchstart="setPreferences();"> </li>
+                <li id="getPhoto" ontouchstart="showTracingConfirm();"> </li>
+                <!-- <li id="prefsButton" ontouchstart="setPreferences();"> </li> -->
                 <!-- list items are added at init() using an array -->
             </ul>
         </div>
         <canvas id="cbook" width="800" height="1200"></canvas>
+        <canvas id="tracingImage" width="800" height="1200"></canvas>
         <canvas id="compositing" width="800" height="1200"></canvas>
         <canvas id="export" width="800" height="1200"></canvas>
     </body>

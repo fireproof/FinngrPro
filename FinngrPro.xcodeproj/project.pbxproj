@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		341C928215D86D02002907E6 /* ActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 341C928115D86D02002907E6 /* ActionSheet.m */; };
 		344EA169159EB6B200BCF40A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 344EA168159EB6B200BCF40A /* Foundation.framework */; };
 		344EA16B159EB6B200BCF40A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 344EA16A159EB6B200BCF40A /* UIKit.framework */; };
 		344EA16D159EB6B200BCF40A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 344EA16C159EB6B200BCF40A /* CoreGraphics.framework */; };
@@ -48,6 +49,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		341C928015D86D02002907E6 /* ActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheet.h; sourceTree = "<group>"; };
+		341C928115D86D02002907E6 /* ActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheet.m; sourceTree = "<group>"; };
 		344EA164159EB6B200BCF40A /* FinngrPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinngrPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		344EA168159EB6B200BCF40A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		344EA16A159EB6B200BCF40A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -275,6 +278,8 @@
 		344EA1B7159EB6B400BCF40A /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				341C928015D86D02002907E6 /* ActionSheet.h */,
+				341C928115D86D02002907E6 /* ActionSheet.m */,
 				344EA1B8159EB6B400BCF40A /* README */,
 				344EA1C7159EB81900BCF40A /* Canvas2ImagePlugin.h */,
 				344EA1C8159EB81900BCF40A /* Canvas2ImagePlugin.m */,
@@ -390,6 +395,7 @@
 				344EA1B4159EB6B400BCF40A /* MainViewController.m in Sources */,
 				344EA1CB159EB81900BCF40A /* Canvas2ImagePlugin.m in Sources */,
 				344EA1CC159EB81900BCF40A /* NSData+Base64.m in Sources */,
+				341C928215D86D02002907E6 /* ActionSheet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,7 +529,7 @@
 					/usr/lib/libSystem.B.dylib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -555,7 +561,7 @@
 					/usr/lib/libSystem.B.dylib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

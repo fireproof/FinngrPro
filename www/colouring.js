@@ -171,17 +171,39 @@ function getCoords(e) {
 	}
 }
 
-function checkClearCanvas() {
-    // show overlay - no: closeClearMessage, yes: clearCanvas
-    $("#clearMessage").fadeIn(300, function() {
-                              $("clearPopup").fadeIn(500);
-                              console.log('clearMessage showing open');
-                              });
+function showClearConfirm() {
+    var actionSheet = window.plugins.actionSheet;
+    // Select Source
+    actionSheet.create('Clear Screen?', ['Yes', 'Save this image first', 'Cancel'], function(buttonValue, buttonIndex) {
+                       
+                       switch (arguments[1])
+                       {
+                       case 0:
+                       clearCanvas();
+                       break;
+                       case 1:
+                       saveCanvas('clear'); // 'persist' would skip the clearCanvas() step.
+//                       clearCanvas(saveCanvas());
+                       break;
+                       default:
+                       console.log('cancel New Page');
+                       }
+                       
+                       }, {cancelButtonIndex: 2});
+    
 }
-
-function closeClearMessage() {
-    $("#clearMessage").fadeOut(100);
-}
+// No ActionSheet plugin required
+//function checkClearCanvas() {
+//    // show overlay - no: closeClearMessage, yes: clearCanvas
+//    $("#clearMessage").fadeIn(300, function() {
+//                              $("clearPopup").fadeIn(500);
+//                              console.log('clearMessage showing open');
+//                              });
+//}
+//
+//function closeClearMessage() {
+//    $("#clearMessage").fadeOut(100);
+//}
 
 function clearCanvas() {
     comp_ctx.clearRect (0, 0,  comp_canvas.width,  comp_canvas.height); // composite
@@ -191,7 +213,14 @@ function clearCanvas() {
     $("body").css({"background":cssImage});
     bgImage = bgImageArr[key];
     
-    closeClearMessage();
+    clearTracingImage();
+//    closeClearMessage();
+}
+// may want to call this by itself at some point?
+function clearTracingImage() {
+    var canvas = document.getElementById("tracingImage");
+    var ctx = canvas.getContext("2d");
+    ctx.clearRect (0, 0,  canvas.width,  canvas.height);
 }
 
 function brushPopup() {
@@ -319,7 +348,7 @@ function compositeCanvas() {
     cb_ctx.clearRect(0, 0, cb_canvas.width, cb_canvas.height);
 }
 
-function saveCanvas() {
+function saveCanvas(retention) {
     // Export image to Photo Library
     // Show message
     $("#savedMessage").html('<span>Saving</span><br />to Photo Library').css({'opacity':'1', 'width':'0px', 'left': toolBarWidth+8 }).animate({
@@ -350,6 +379,9 @@ function saveCanvas() {
                                                                                         }, 500, function() {
                                                                                         // Animation complete.
                                                                                         console.log('Saved');
+                                                                                        if (retention != 'persist'){
+                                                                                        clearCanvas();
+                                                                                        }
                                                                                         });
                                                   
                                                   }, 
@@ -362,3 +394,100 @@ function saveCanvas() {
     img.src = bgImage;
 }
 
+/* Tracing Image Functions */
+
+// Photo is successfully retrieved, draw to tracingImage div
+function setTracingImage(imageURI) {
+    clearTracingImage();
+    var canvas = document.getElementById("tracingImage");
+    var ctx = canvas.getContext("2d");
+    var image = new Image();
+    
+    image.onload = function(){
+        var newWidth;
+        var newHeight;
+        var newX;
+        var newY;
+        if (image.width > image.height){
+            var mult = canvas.width / image.width;
+            newX = '0';
+            newY = parseInt((canvas.height / 2) - ((image.height * mult) / 2));
+            newHeight = parseInt(image.height * mult);
+            newWidth = parseInt(image.width * mult);
+        }
+        else {
+            var mult = canvas.height / image.height;
+            newX = parseInt((canvas.width / 2) - ((image.width * mult) / 2));
+            newY = '0';
+            newHeight = parseInt(image.height * mult);
+            newWidth = parseInt(image.width * mult);
+        }
+        ctx.drawImage(image, newX,newY, newWidth, newHeight);
+    }
+    image.src = imageURI;
+}
+
+
+//// No ActionSheet plugin needed
+//function showTracingConfirm() {
+//    navigator.notification.confirm(
+//                                   'Select Image Source',  // message
+//                                   capturePhoto,              // callback to invoke with index of button pressed
+//                                   'Tracing Image',            // title
+//                                   'Camera,Photo Library,Cancel'          // buttonLabels
+//                                   );
+//}
+//
+//function capturePhoto(imageSource) {
+//    console.log(imageSource);
+//    if (imageSource == '1'){
+//    navigator.camera.getPicture(setTracingImage, onFail, {
+//                                quality: 50,
+//                                correctOrientation: 1,
+//                                saveToPhotoAlbum: 0
+//                                });
+//    }
+//    else if (imageSource == '2') {
+//    navigator.camera.getPicture(setTracingImage, onFail, {
+//                                quality: 50,
+//                                correctOrientation: 1,
+//                                destinationType: navigator.camera.DestinationType.FILE_URI,
+//                                sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+//                                });
+//    }
+//    else { console.log('cancel tracing image'); }
+//}
+
+function onFail() {
+    console.log('camera FAIL');
+}
+
+function showTracingConfirm() {
+    var actionSheet = window.plugins.actionSheet;
+    // Select Source
+    actionSheet.create('Select Tracing Image Source', ['Camera', 'Photo Library', 'Cancel'], function(buttonValue, buttonIndex) {
+
+                       switch (arguments[1])
+                       {
+                       case 0:
+                       navigator.camera.getPicture(setTracingImage, onFail, {
+                                                   quality: 50,
+                                                   correctOrientation: 1,
+                                                   saveToPhotoAlbum: 0
+                                                   });
+                       break;
+                       case 1:
+                       navigator.camera.getPicture(setTracingImage, onFail, {
+                                                   quality: 50,
+                                                   correctOrientation: 1,
+                                                   destinationType: navigator.camera.DestinationType.FILE_URI,
+                                                   sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+                                                   });
+                       break;
+                       default:
+                       console.log('cancel Tracing Image selection');
+                       }
+
+                       }, {cancelButtonIndex: 2});
+
+}
