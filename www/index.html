@@ -31,7 +31,6 @@
                 
                 function onDeviceReady() {
                     toolBarWidth = $("#toolBar").width();
-                    console.log(toolBarWidth);
                     widthMinusBar = window.innerWidth - toolBarWidth; // take 75px away to compensate for toolbar. 
                     
                     var c = document.getElementById('cbook');
@@ -47,7 +46,7 @@
                     compositingtwin.height = window.innerHeight;
                     
                     var tracewin = document.getElementById('tracingImage');
-                    tracewin.width = widthMinusBar; console.log('Tracing Image width: '+tracewin.width);
+                    tracewin.width = widthMinusBar;
                     tracewin.height = window.innerHeight;
 
                     

@@ -10,7 +10,6 @@ var thickness = 1.2;
 var size = 3; // thickness multiplier
 var brushSize = 3;
 var penSize = 1;
-//console.log('start size: '+size);
 var brush = "brush";
 var previousColor = "black";
 var compGlobalAlpha = 0.99; // initial compositing transparency
@@ -183,7 +182,6 @@ function showClearConfirm() {
                        break;
                        case 1:
                        saveCanvas('clear'); // 'persist' would skip the clearCanvas() step.
-//                       clearCanvas(saveCanvas());
                        break;
                        default:
                        console.log('cancel New Page');
@@ -192,18 +190,6 @@ function showClearConfirm() {
                        }, {cancelButtonIndex: 2});
     
 }
-// No ActionSheet plugin required
-//function checkClearCanvas() {
-//    // show overlay - no: closeClearMessage, yes: clearCanvas
-//    $("#clearMessage").fadeIn(300, function() {
-//                              $("clearPopup").fadeIn(500);
-//                              console.log('clearMessage showing open');
-//                              });
-//}
-//
-//function closeClearMessage() {
-//    $("#clearMessage").fadeOut(100);
-//}
 
 function clearCanvas() {
     comp_ctx.clearRect (0, 0,  comp_canvas.width,  comp_canvas.height); // composite
@@ -426,37 +412,6 @@ function setTracingImage(imageURI) {
     }
     image.src = imageURI;
 }
-
-
-//// No ActionSheet plugin needed
-//function showTracingConfirm() {
-//    navigator.notification.confirm(
-//                                   'Select Image Source',  // message
-//                                   capturePhoto,              // callback to invoke with index of button pressed
-//                                   'Tracing Image',            // title
-//                                   'Camera,Photo Library,Cancel'          // buttonLabels
-//                                   );
-//}
-//
-//function capturePhoto(imageSource) {
-//    console.log(imageSource);
-//    if (imageSource == '1'){
-//    navigator.camera.getPicture(setTracingImage, onFail, {
-//                                quality: 50,
-//                                correctOrientation: 1,
-//                                saveToPhotoAlbum: 0
-//                                });
-//    }
-//    else if (imageSource == '2') {
-//    navigator.camera.getPicture(setTracingImage, onFail, {
-//                                quality: 50,
-//                                correctOrientation: 1,
-//                                destinationType: navigator.camera.DestinationType.FILE_URI,
-//                                sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
-//                                });
-//    }
-//    else { console.log('cancel tracing image'); }
-//}
 
 function onFail() {
     console.log('camera FAIL');
