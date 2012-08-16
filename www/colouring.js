@@ -13,6 +13,8 @@ var penSize = 1;
 var brush = "brush";
 var previousColor = "black";
 var compGlobalAlpha = 0.99; // initial compositing transparency
+var tracingImageURI = '';
+var alphaAdjust = '0';
 
 var bgImageArr = ["pages/Old_Grunger_Paper_Texture_09_by_fudgegraphics.jpg",
                   "pages/Old_Grunger_Paper_Texture_01_by_fudgegraphics.jpg",
@@ -58,7 +60,7 @@ function init() {
 		cb_ctx = cb_canvas.getContext('2d');
 		cb_ctx.lineWidth = thickness;
         cb_ctx.lineCap = 'round';
-//        cb_ctx.globalCompositeOperation = "copy"; // turns strokes opaque; comment out to see dotty/better strokes. individual colors need lower alpha 
+//        cb_ctx.globalCompositeOperation = "copy"; // turns strokes opaque; comment out to see dotty/better strokes. individual colors need lower alpha
 		cb_ctx.strokeStyle = 'rgba('+rgbValue+')';
 		cb_ctx.beginPath();
 
@@ -133,13 +135,20 @@ function drawLine(sX, sY, eX, eY) {
     if (brush == "pen") {
         // starts thick, gets thinner with speed. thickness 20
         if (cb_ctx.lineWidth <= (thickness * (penSize/2)) -1) { prevWidth = cb_ctx.lineWidth; }
-        cb_ctx.lineWidth = (thickness * (penSize/2)) - (curLength * ((thickness * (penSize/2))/30));
-        if (cb_ctx.lineWidth <  prevWidth - ((thickness * (penSize/2))/30) ) { cb_ctx.lineWidth = prevWidth - ((thickness * (penSize/2))/30 +1); }
-        if (cb_ctx.lineWidth > prevWidth + ((thickness * (penSize/2))/30)) { cb_ctx.lineWidth = prevWidth + 1; }
+        cb_ctx.lineWidth = (thickness * (penSize/2)) - (curLength * ((thickness * (penSize/2))/40));
+        if (cb_ctx.lineWidth <  prevWidth - ((thickness * (penSize/2))/40) ) { cb_ctx.lineWidth = prevWidth - ((thickness * (penSize/2))/40 +1); }
+        if (cb_ctx.lineWidth > prevWidth + ((thickness * (penSize/2))/40)) { cb_ctx.lineWidth = prevWidth + 1; }
         if (curLength == 1) { cb_ctx.lineWidth = cb_ctx.lineWidth + 2 ;}
         if (cb_ctx.lineWidth < 1){ cb_ctx.lineWidth = 1; } // limit stroke min
+        // change transparency with speed
+//        var adjustmentValue = cb_ctx.lineWidth;
+//        if (adjustmentValue < 10) { adjustmentValue = 10; }
+//        adjustmentValue = adjustmentValue * 0.01;
+//        var adjustedRGBa = changeAlpha(rgbValue, adjustmentValue);
+//        cb_ctx.strokeStyle = 'rgba('+adjustedRGBa+')';
     }
     
+    // need to set minimum brush size?
     if (brush == "brush") {
         var brushthickness = brushSize/3;
         if (cb_ctx.lineWidth > (brushthickness * brushSize) /2) { prevWidth = cb_ctx.lineWidth; }
@@ -192,7 +201,9 @@ function showClearConfirm() {
 }
 
 function clearCanvas() {
-    comp_ctx.clearRect (0, 0,  comp_canvas.width,  comp_canvas.height); // composite
+    //clear composite layer
+    comp_ctx.clearRect (0, 0,  comp_canvas.width,  comp_canvas.height);
+    
     // change background paper image
     var key = Math.floor((Math.random()* bgImageArr.length)+1);
     cssImage = "url("+bgImageArr[key]+") repeat-y fixed 0 0";
@@ -200,8 +211,8 @@ function clearCanvas() {
     bgImage = bgImageArr[key];
     
     clearTracingImage();
-//    closeClearMessage();
 }
+
 // may want to call this by itself at some point?
 function clearTracingImage() {
     var canvas = document.getElementById("tracingImage");
@@ -213,6 +224,7 @@ function brushPopup() {
     // if current tool is pen, switch to brush and vice versa
     if (brush == 'pen'){
         brush = 'brush';
+        // PEN SETTINGS
         thickness = '0.125';
         var bg = 'url(icons/2/toolbar_brush.png) no-repeat 5px';
         $("#brushButton").css({'background': bg});
@@ -220,9 +232,14 @@ function brushPopup() {
         $("#sizeButton").css({'background': bg});
         if (brushSize == 5) { $("#sizePlus").addClass('sizeDisabled'); } else { $("#sizePlus").removeClass('sizeDisabled'); }
         if (brushSize == 1) { $("#sizeMinus").addClass('sizeDisabled'); } else { $("#sizeMinus").removeClass('sizeDisabled'); }
+//        comp_ctx.globalCompositeOperation = "source-over";
+//        compGlobalAlpha = '0.99';
+        alphaAdjust = '0';
+
     }
     else if (brush == 'brush'){
         brush = 'pen';
+        // BRUSH SETTINGS
         thickness = '11';
         var bg = 'url(icons/2/toolbar_pen.png) no-repeat 5px';
         $("#brushButton").css({'background': bg});
@@ -230,6 +247,9 @@ function brushPopup() {
         $("#sizeButton").css({'background': bg});
         if (penSize == 5) { $("#sizePlus").addClass('sizeDisabled'); } else { $("#sizePlus").removeClass('sizeDisabled'); }
         if (penSize == 1) { $("#sizeMinus").addClass('sizeDisabled'); } else { $("#sizeMinus").removeClass('sizeDisabled'); }
+//        comp_ctx.globalCompositeOperation = "darker";
+//        compGlobalAlpha = '0.95';
+        alphaAdjust = '0.20';
     }
 }
 
@@ -314,6 +334,16 @@ function rgbMidpoint(first,second) {
                      + parseInt( (parseFloat(firstRGBarr[2]) + parseFloat(secondRGBarr[2]))/2 ).toString() + ','
                      + parseFloat( (parseFloat(firstRGBarr[3]) + parseFloat(secondRGBarr[3]))/2 ).toString();
     return midpointRGBa;
+}
+
+function changeAlpha(input,adjustment) {
+    // input: RGBa like '34,343,34,0.9'
+    // adjustment: '0.20'
+    // adjust the alpha of RGBA
+    var inputRGBa = input.split(',');
+    var newAlpha = parseFloat(inputRGBa[3]) - parseFloat(adjustment) ;
+    var outputRGBa = inputRGBa[0] +','+ inputRGBa[1] +','+ inputRGBa[2] +','+ newAlpha;
+    return outputRGBa ;
 }
 
 //+ Jonas Raoni Soares Silva
@@ -409,6 +439,7 @@ function setTracingImage(imageURI) {
             newWidth = parseInt(image.width * mult);
         }
         ctx.drawImage(image, newX,newY, newWidth, newHeight);
+        tracingImageURI = image.src;
     }
     image.src = imageURI;
 }
@@ -419,6 +450,7 @@ function onFail() {
 
 function showTracingConfirm() {
     var actionSheet = window.plugins.actionSheet;
+    if (tracingImageURI == '') {
     // Select Source
     actionSheet.create('Select Tracing Image Source', ['Camera', 'Photo Library', 'Cancel'], function(buttonValue, buttonIndex) {
 
@@ -444,5 +476,36 @@ function showTracingConfirm() {
                        }
 
                        }, {cancelButtonIndex: 2});
+    }
+    else {
+        actionSheet.create('Select Tracing Image Source', ['Camera', 'Photo Library', 'Remove Tracing Layer', 'Cancel'], function(buttonValue, buttonIndex) {
+                           
+                           switch (arguments[1])
+                           {
+                           case 0:
+                           navigator.camera.getPicture(setTracingImage, onFail, {
+                                                       quality: 50,
+                                                       correctOrientation: 1,
+                                                       saveToPhotoAlbum: 0
+                                                       });
+                           break;
+                           case 1:
+                           navigator.camera.getPicture(setTracingImage, onFail, {
+                                                       quality: 50,
+                                                       correctOrientation: 1,
+                                                       destinationType: navigator.camera.DestinationType.FILE_URI,
+                                                       sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+                                                       });
+                           break;
+                           case 2:
+                           tracingImageURI = '';
+                           clearTracingImage();
+                           break;
+                           default:
+                           console.log('cancel Tracing Image selection');
+                           }
+                           
+                           }, {destructiveButtonIndex: 2, cancelButtonIndex: 3}); // destructiveButtonIndex: 2  <- by itself causes cancel button to show up again.
+    }
 
 }
