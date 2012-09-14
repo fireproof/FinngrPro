@@ -133,13 +133,13 @@ function drawLine(sX, sY, eX, eY) {
     var curLength = parseInt(lineLength(sX, sY, eX, eY));
 
     if (brush == "pen") {
-        // starts thick, gets thinner with speed. thickness 20
+        // starts thick, gets thinner with speed. 
         if (cb_ctx.lineWidth <= (thickness * (penSize/2)) -1) { prevWidth = cb_ctx.lineWidth; }
         cb_ctx.lineWidth = (thickness * (penSize/2)) - (curLength * ((thickness * (penSize/2))/40));
         if (cb_ctx.lineWidth <  prevWidth - ((thickness * (penSize/2))/40) ) { cb_ctx.lineWidth = prevWidth - ((thickness * (penSize/2))/40 +1); }
         if (cb_ctx.lineWidth > prevWidth + ((thickness * (penSize/2))/40)) { cb_ctx.lineWidth = prevWidth + 1; }
         if (curLength == 1) { cb_ctx.lineWidth = cb_ctx.lineWidth + 2 ;}
-        if (cb_ctx.lineWidth < 1){ cb_ctx.lineWidth = 1; } // limit stroke min
+        if (cb_ctx.lineWidth < 0.5){ cb_ctx.lineWidth = 0.5; } // limit stroke min
         // change transparency with speed
 //        var adjustmentValue = cb_ctx.lineWidth;
 //        if (adjustmentValue < 10) { adjustmentValue = 10; }
